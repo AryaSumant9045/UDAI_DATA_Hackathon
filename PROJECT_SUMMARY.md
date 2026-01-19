@@ -28,24 +28,7 @@
 - Downloadable results
 - Professional styling & layout
 
-### 🔌 **3. Flask REST API (flask_app.py)**
-**6 API Endpoints:**
-1. `GET /` - Health check
-2. `GET /health` - API status
-3. `GET /api/model-info` - Model details
-4. `POST /api/predict-risk` - Single region prediction
-5. `POST /api/predict-batch` - Batch predictions
-6. `GET /api/forecast-demand` - 30-day forecast
-7. `GET /api/regions-analysis` - All regions analysis
-
-**Features:**
-- JSON request/response
-- Error handling
-- CORS enabled
-- Logging & monitoring
-- Production-ready
-
-### 📚 **4. Documentation Files**
+### � **3. Documentation Files**
 
 #### **README.md** (Comprehensive Documentation)
 - Project overview
@@ -61,18 +44,7 @@
 - Deployment checklist
 - Troubleshooting guide
 
-#### **DEPLOYMENT_GUIDE.md** (Quick Start)
-- 5 deployment options with step-by-step instructions:
-  1. Streamlit (Local)
-  2. Flask API (Local)
-  3. Streamlit Cloud (FREE - Recommended)
-  4. Docker
-  5. Heroku
-- API endpoint examples
-- Production checklist
-- Troubleshooting
-
-### 📋 **5. Configuration Files**
+### 📋 **4. Configuration Files**
 
 #### **requirements.txt**
 - All Python dependencies listed
@@ -96,17 +68,7 @@ streamlit run streamlit_app.py
 # Then open: http://localhost:8501
 ```
 
-### **Option 2: Run Flask API (REST endpoints)**
-```bash
-pip install -r requirements.txt
-python flask_app.py
-# Then use: http://localhost:5000
-```
 
-### **Option 3: Test Everything**
-```bash
-python test_app.py
-```
 
 ---
 
@@ -122,9 +84,7 @@ python test_app.py
 | **Demand Forecast** | 30-day prediction with CI | ✅ Working |
 | **Visualizations** | 6+ interactive charts | ✅ Complete |
 | **Web Dashboard** | 5-page Streamlit app | ✅ Complete |
-| **REST API** | 7 endpoints with CORS | ✅ Complete |
-| **Documentation** | README + DEPLOYMENT guide | ✅ Complete |
-| **Testing** | Comprehensive test script | ✅ Complete |
+| **Documentation** | README + Quick start | ✅ Complete |
 
 ---
 
@@ -133,11 +93,8 @@ python test_app.py
 ```
 UDAI-Hackathon/
 ├── 📓 ml_models.ipynb              # Original notebook with all models
-├── 🎨 streamlit_app.py             # Interactive web dashboard (RECOMMENDED)
-├── 🔌 flask_app.py                 # REST API for production
-├── 🧪 test_app.py                  # Test & verification script
+├── 🎨 streamlit_app.py             # Interactive web dashboard
 ├── 📚 README.md                     # Complete documentation
-├── 🚀 DEPLOYMENT_GUIDE.md           # Quick start deployment guide
 ├── 📋 requirements.txt              # Python dependencies
 ├── 📊 api_data_aadhar_biometric/   # Biometric data (1.86M records)
 ├── 👥 api_data_aadhar_demographic/ # Demographic data (2.07M records)
@@ -166,45 +123,29 @@ UDAI-Hackathon/
 
 ---
 
-## 🌐 Deployment Options
+## 🌐 Deployment
 
-| Option | Setup | Cost | Ease | Scalability |
-|--------|-------|------|------|-------------|
-| **1. Streamlit Cloud** | 1 click | FREE | ⭐⭐⭐⭐⭐ | Low |
-| **2. Heroku** | 5 min | Low | ⭐⭐⭐⭐ | Medium |
-| **3. AWS EC2** | 15 min | Medium | ⭐⭐⭐ | Very High |
-| **4. Docker** | 10 min | Flexible | ⭐⭐⭐⭐ | High |
-| **5. Google Cloud Run** | 5 min | Pay/use | ⭐⭐⭐⭐ | Very High |
+**Local:**
+```bash
+streamlit run streamlit_app.py
+http://localhost:8501
+```
 
-**RECOMMENDED:** Streamlit Cloud (Free + Easy)
+**Cloud (Streamlit Cloud - FREE):**
+1. Push to GitHub
+2. Visit streamlit.io/cloud
+3. Connect repo → Deploy
 
 ---
 
-## 📞 API Usage Examples
+## 🎯 Using the App
 
-### **Predict Single Region**
-```bash
-curl -X POST http://localhost:5000/api/predict-risk \
-  -H "Content-Type: application/json" \
-  -d '{"biometric_updates": 5000, "demographic_updates": 50000}'
-```
-
-### **Batch Predictions**
-```bash
-curl -X POST http://localhost:5000/api/predict-batch \
-  -H "Content-Type: application/json" \
-  -d '{
-    "regions": [
-      {"name": "Region1", "biometric_updates": 5000, "demographic_updates": 50000},
-      {"name": "Region2", "biometric_updates": 3000, "demographic_updates": 30000}
-    ]
-  }'
-```
-
-### **Get Forecast**
-```bash
-curl "http://localhost:5000/api/forecast-demand?days=30"
-```
+**5 Pages:**
+1. Home - Overview
+2. Risk Prediction - Model 1 visualizations
+3. Demand Forecast - Model 2 forecast
+4. Summary - Model metrics
+5. Batch Prediction - CSV upload
 
 ---
 
@@ -231,31 +172,17 @@ curl "http://localhost:5000/api/forecast-demand?days=30"
 - Seaborn for statistical visualizations
 - Interactive Streamlit charts
 
-### **Web Frameworks**
+### **Web Framework**
 - Streamlit for interactive dashboard
-- Flask for RESTful API
-- CORS for cross-origin requests
 
 ---
 
 ## 📈 Next Steps
 
-### **Immediate:**
-1. ✅ Run: `streamlit run streamlit_app.py`
-2. ✅ Test predictions in web UI
-3. ✅ Deploy to Streamlit Cloud (FREE)
-
-### **Short Term:**
-- Add user authentication
-- Store predictions in database
-- Create admin dashboard
-- Setup monitoring & alerts
-
-### **Long Term:**
-- Implement more models (XGBoost, Prophet)
-- Add real-time data pipelines
-- Setup automated retraining
-- Create mobile app
+1. Run: `streamlit run streamlit_app.py`
+2. Test in web UI
+3. Deploy to Streamlit Cloud
+4. Share with team
 
 ---
 
@@ -295,18 +222,16 @@ You now have a **complete, production-ready ML system** with:
 
 1. ✅ Two trained ML models
 2. ✅ Interactive web dashboard
-3. ✅ Professional REST API
-4. ✅ Complete documentation
-5. ✅ Multiple deployment options
-6. ✅ Testing & validation tools
+3. ✅ Complete documentation
+4. ✅ Ready to deploy
 
 **Status:** 🟢 READY FOR DEPLOYMENT
 
 ---
 
 **Created:** January 19, 2026  
-**Total Files:** 6 Python files + 2 Documentation files  
-**Total Lines of Code:** 1000+ lines  
+**Total Files:** 2 Python files + Documentation  
+**Total Lines of Code:** 800+ lines  
 **Time to Deploy:** 5 minutes (Streamlit Cloud)
 
 ---
