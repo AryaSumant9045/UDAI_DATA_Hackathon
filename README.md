@@ -224,320 +224,64 @@ jupyter notebook ml_models.ipynb
 
 ---
 
-## 🚀 Deployment Options
+## 🚀 Deployment
 
-### **Option 1: Streamlit Web Application (Easiest)**
-Fast interactive web interface for visualizations and predictions.
+### **Local Deployment**
 
-**Installation:**
 ```bash
-pip install streamlit pandas numpy scikit-learn statsmodels matplotlib seaborn
-```
-
-**Create `app.py`:**
-```python
-import streamlit as st
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from statsmodels.tsa.arima.model import ARIMA
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-st.set_page_config(page_title="Aadhaar ML Analytics", layout="wide")
-st.title("🎯 Aadhaar Lifecycle Analytics")
-
-# Sidebar for navigation
-page = st.sidebar.selectbox("Select Model", ["Home", "At-Risk Prediction", "Demand Forecast"])
-
-if page == "Home":
-    st.markdown("""
-    ## 📊 ML Models for Aadhaar Lifecycle Analysis
-    - **Model 1:** Logistic Regression - At-Risk Region Prediction
-    - **Model 2:** ARIMA Time-Series - 30-Day Demand Forecast
-    """)
-
-elif page == "At-Risk Prediction":
-    st.header("🚨 At-Risk Region Prediction")
-    st.markdown("Identify regions at risk of compliance failure in next 30 days")
-    
-    # Upload or use sample data
-    uploaded_file = st.file_uploader("Upload demographic data (CSV)")
-    
-    if uploaded_file:
-        demo_df = pd.read_csv(uploaded_file)
-        st.write("Data shape:", demo_df.shape)
-        # Add prediction logic here
-
-elif page == "Demand Forecast":
-    st.header("📈 30-Day Demand Forecast")
-    st.markdown("Predict future Aadhaar update demand")
-    
-    # Forecast visualization
-    st.info("ARIMA(1,1,1) forecast with 95% confidence intervals")
-    # Add forecast visualization here
-```
-
-**Run:**
-```bash
-streamlit run app.py
-```
-
----
-
-### **Option 2: Flask REST API (Production-Ready)**
-Create API endpoints for model predictions.
-
-**Installation:**
-```bash
-pip install flask scikit-learn statsmodels pandas numpy
-```
-
-**Create `app.py`:**
-```python
-from flask import Flask, request, jsonify
-import pickle
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
-from statsmodels.tsa.arima.model import ARIMA
-
-app = Flask(__name__)
-
-# Load pre-trained models
-# log_reg = pickle.load(open('models/logistic_regression.pkl', 'rb'))
-# scaler = pickle.load(open('models/scaler.pkl', 'rb'))
-
-@app.route('/api/predict-risk', methods=['POST'])
-def predict_risk():
-    """Predict at-risk probability for regions"""
-    data = request.json
-    biometric_updates = data.get('biometric_updates')
-    demographic_updates = data.get('demographic_updates')
-    
-    features = np.array([[biometric_updates, demographic_updates]])
-    # scaled_features = scaler.transform(features)
-    # risk_probability = log_reg.predict_proba(scaled_features)[0][1]
-    
-    return jsonify({
-        'risk_probability': float(risk_probability),
-        'risk_level': 'High' if risk_probability > 0.5 else 'Medium' if risk_probability > 0.3 else 'Safe'
-    })
-
-@app.route('/api/forecast-demand', methods=['GET'])
-def forecast_demand():
-    """Get 30-day demand forecast"""
-    # arima_model = ARIMA(ts_data, order=(1,1,1))
-    # forecast = arima_model.fit().get_forecast(steps=30)
-    
-    return jsonify({
-        'forecast_dates': [],
-        'forecast_values': [],
-        'confidence_upper': [],
-        'confidence_lower': []
-    })
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
-```
-
-**Run:**
-```bash
-python app.py
-```
-
-API will be available at: `http://localhost:5000/api/predict-risk`
-
----
-
-### **Option 3: Docker Containerization (Cloud-Ready)**
-Package your app in a Docker container for easy deployment.
-
-**Create `Dockerfile`:**
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-# Copy requirements
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application
-COPY . .
-
-# Expose port
-EXPOSE 5000
-
-# Run Flask app
-CMD ["python", "app.py"]
-```
-
-**Create `requirements.txt`:**
-```
-flask==2.3.0
-pandas==1.5.3
-numpy==1.23.5
-scikit-learn==1.2.2
-statsmodels==0.13.5
-matplotlib==3.7.1
-seaborn==0.12.2
-```
-
-**Build & Run:**
-```bash
-# Build image
-docker build -t aadhaar-ml:latest .
-
-# Run container
-docker run -p 5000:5000 aadhaar-ml:latest
-```
-
----
-
-### **Option 4: AWS Deployment**
-
-**Deploy Flask App to AWS EC2:**
-```bash
-# 1. Launch EC2 instance (Ubuntu)
-# 2. Connect and install dependencies
-ssh -i your-key.pem ubuntu@your-instance-ip
-
-sudo apt update
-sudo apt install python3-pip
+# 1. Install dependencies
 pip install -r requirements.txt
 
-# 3. Run with Gunicorn (production server)
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+# 2. Run Streamlit app
+streamlit run streamlit_app.py
 
-# 4. Setup Nginx reverse proxy
-# 5. Configure domain and SSL
+# 3. Open in browser
+# http://localhost:8501
 ```
 
-**Deploy with AWS SageMaker:**
-```bash
-# 1. Save models
-import pickle
-pickle.dump(log_reg, open('model.pkl', 'wb'))
-pickle.dump(scaler, open('scaler.pkl', 'wb'))
+### **Cloud Deployment (Streamlit Cloud - FREE)**
 
-# 2. Create model.tar.gz
-tar czf model.tar.gz model.pkl scaler.pkl
+1. **Push code to GitHub:**
+   ```bash
+   git add .
+   git commit -m "Deploy to Streamlit Cloud"
+   git push origin main
+   ```
 
-# 3. Upload to S3
-aws s3 cp model.tar.gz s3://your-bucket/
+2. **Go to:** [streamlit.io/cloud](https://streamlit.io/cloud)
 
-# 4. Deploy via SageMaker console
-```
+3. **Connect your GitHub repository:**
+   - Click "New app"
+   - Select your repo
+   - Choose `streamlit_app.py` as main file
+   - Click "Deploy"
+
+4. **Your app is live!** Share the Streamlit Cloud URL
+
+**Free tier includes:**
+- Unlimited public apps
+- 1 GB storage
+- Community support
 
 ---
 
-### **Option 5: Heroku Deployment (Easiest Cloud)**
+## 📊 Features Available
 
-**Steps:**
-```bash
-# 1. Install Heroku CLI
-brew tap heroku/brew && brew install heroku
+The **5-page Streamlit dashboard** includes:
 
-# 2. Login
-heroku login
-
-# 3. Create Heroku app
-heroku create your-app-name
-
-# 4. Create Procfile
-echo "web: gunicorn app:app" > Procfile
-
-# 5. Deploy
-git push heroku main
-
-# 6. View logs
-heroku logs --tail
-```
+1. **🏠 Home** - Project overview & statistics
+2. **📊 Risk Prediction** - Model 1 with visualizations
+   - ROC Curve
+   - Confusion Matrix
+   - Risk probability distribution
+3. **📈 Demand Forecast** - Model 2 with time-series
+   - Historical data + forecast
+   - Confidence intervals
+   - Statistical details
+4. **📋 Summary & Metrics** - Model performance metrics
+5. **📤 Batch Prediction** - Upload CSV for predictions
 
 ---
-
-### **Option 6: Google Cloud Run (Serverless)**
-
-**Create `main.py`:**
-```python
-from flask import Flask
-import os
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return "Aadhaar ML Models Running"
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
-```
-
-**Deploy:**
-```bash
-# 1. Authenticate
-gcloud auth login
-
-# 2. Deploy
-gcloud run deploy aadhaar-ml \
-  --source . \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated
-```
-
----
-
-### **Option 7: Azure App Service**
-
-```bash
-# 1. Create resource group
-az group create -n aadhaar-rg -l eastus
-
-# 2. Create App Service Plan
-az appservice plan create \
-  -n aadhaar-plan \
-  -g aadhaar-rg \
-  --sku B1 --is-linux
-
-# 3. Create web app
-az webapp create \
-  -n aadhaar-ml \
-  -g aadhaar-rg \
-  -p aadhaar-plan \
-  -r "PYTHON|3.9"
-
-# 4. Deploy code
-az webapp deployment source config-zip \
-  -n aadhaar-ml \
-  -g aadhaar-rg \
-  --src deployment.zip
-```
-
----
-
-## 📊 Recommended Deployment Path
-
-| Use Case | Best Option | Ease | Cost | Scalability |
-|----------|------------|------|------|-------------|
-| **Quick Demo** | Streamlit | ⭐⭐⭐⭐⭐ | Free | Low |
-| **Production API** | Flask + Docker | ⭐⭐⭐⭐ | Low | High |
-| **Quick Launch** | Heroku | ⭐⭐⭐⭐⭐ | Low | Medium |
-| **Enterprise** | AWS EC2 + Load Balancer | ⭐⭐ | Medium | Very High |
-| **Serverless** | Google Cloud Run | ⭐⭐⭐⭐ | Pay-per-use | Very High |
-
----
-
-## 🎯 Quick Start: Streamlit Deployment (Recommended)
-
-### **Step 1: Create Streamlit App**
-```bash
-pip install streamlit
-```
 
 ### **Step 2: Create `streamlit_app.py`**
 See complete code above in "Option 1"
@@ -627,16 +371,14 @@ curl http://localhost:5000/api/forecast-demand
 
 - [ ] Save trained models to disk
 - [ ] Create requirements.txt with all dependencies
-- [ ] Test app locally (localhost:5000 or localhost:8501)
-- [ ] Create Dockerfile (if containerizing)
+- [ ] Test app locally (localhost:8501)
 - [ ] Setup error handling and logging
 - [ ] Add authentication/API keys (if needed)
 - [ ] Configure environment variables
 - [ ] Setup monitoring and alerts
 - [ ] Create deployment documentation
-- [ ] Test on cloud platform
-- [ ] Setup CI/CD pipeline (GitHub Actions, etc.)
-- [ ] Monitor performance and costs
+- [ ] Deploy to Streamlit Cloud
+- [ ] Monitor performance
 
 ---
 
@@ -644,26 +386,22 @@ curl http://localhost:5000/api/forecast-demand
 
 **Port already in use:**
 ```bash
-# macOS/Linux
-lsof -i :5000
-kill -9 <PID>
+# Kill existing Streamlit process
+pkill -f streamlit
 
 # Or use different port
-python app.py --port 8000
+streamlit run streamlit_app.py --server.port=8502
 ```
 
 **Module import errors:**
 ```bash
-pip install --upgrade scikit-learn statsmodels
+pip install --upgrade -r requirements.txt
 ```
 
 **Memory issues with large datasets:**
-```python
-# Process in chunks
-chunk_size = 100000
-for chunk in pd.read_csv('file.csv', chunksize=chunk_size):
-    # Process chunk
-    pass
+```bash
+# Run with optimized settings
+streamlit run streamlit_app.py --client.maxMessageSize=200
 ```
 
 ---
